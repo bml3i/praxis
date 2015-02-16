@@ -13,6 +13,10 @@ public class WeatherData extends Observable {
 
 	public void measurementsChanged() {
 		setChanged();
+
+		// Notice we aren’t sending a data object with
+		// the notifyObservers() call. That means
+		// we’re using the PULL model.
 		notifyObservers();
 	}
 
