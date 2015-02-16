@@ -1,48 +1,50 @@
 package com.bigcay.observer;
 
-public class WeatherData {
+import java.util.ArrayList;
+
+public class WeatherData implements Subject {
 
 	private float temperature;
 	private float humidity;
 	private float pressure;
-	
+
+	private ArrayList<Observer> observers;
+
 	public WeatherData() {
-		super();
+		observers = new ArrayList<Observer>();
 	}
-	
-	public WeatherData(float temperature, float humidity, float pressure){
-		super();
-		
+
+	public void measurementsChanged() {
+		notifyObservers();
+	}
+
+	public void setMeasurements(float temperature, float humidity, float pressure) {
 		this.temperature = temperature;
 		this.humidity = humidity;
 		this.pressure = pressure;
+
+		measurementsChanged();
 	}
-	
-	public void measurementsChanged() {
-		float temp = getTemperature();
-		float humidity = getHumidity();
-		float pressure = getPressure();
-		
-		//currentConditionsDisplay.update(temp, humidity, pressure);
-		//statisticsDisplay.update(temp, humidity, pressure);
-		//forecastDisplay.update(temp, humidity, pressure);
+
+	@Override
+	public void registerObserver(Observer o) {
+		observers.add(o);
 	}
-	
-	private float getTemperature(){
-		return this.temperature; 
+
+	@Override
+	public void removeObserver(Observer o) {
+		int idx = observers.indexOf(o);
+
+		if (idx >= 0) {
+			observers.remove(idx);
+		}
 	}
-	
-	private float getHumidity(){
-		return this.humidity; 
-	}
-	
-	private float getPressure(){
-		return this.pressure; 
-	}
-	
-	public static void main(String[] args) {
-		WeatherData WeatherData = new WeatherData();
-		
+
+	@Override
+	public void notifyObservers() {
+		for(Observer observer : observers) {
+			observer.update(temperature, humidity, pressure);
+		}
 	}
 
 }
