@@ -3,8 +3,6 @@ package com.bigcay.dp.observer2;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.bigcay.observer.DisplayElement;
-
 public class CurrentConditionsDisplay implements Observer, DisplayElement {
 
 	private float temperature;
